@@ -481,13 +481,40 @@ class Wechat(object):
         wb.close()
         app.quit()
 
+    def run_file(self, file: str):
+        contents = self.walk_files([file])
+        contents = self.parse_content(contents)
+        # contents = self.get_fire(contents)
+        self.write_excel(contents)
+
+    def run_folder(self, folder: str):
+        files = self.get_wechat_files(folder)
+        contents = self.walk_files(files)
+        contents = self.parse_content(contents)
+        # contents = self.get_fire(contents)
+        self.write_excel(contents)
+
 
 if __name__ == '__main__':
-    save = r"D:\Workspace\github\code\temp\aaa.txt"
-    my_money = r"C:\Users\philo\Downloads\temp\Music1\myMoney.xls"
-    cmb = r"C:\Users\philo\Downloads\temp\Music1\CreditCardReckoning.txt"
-    start = "2020-01-01"
-    end = "2020-10-27"
-    compare = Compare()
+    base_path = r"C:\Users\lizhe\Desktop\Music20210212"
+    cmb = fr"{base_path}\CreditCardReckoning2021-2.txt"
+    wechat = fr"{base_path}\微信支付账单(20210213-20210505).csv"
+    alipay = fr"{base_path}\alipay_record_20210505_0917_1.csv"
+
+    # pay = AliPay(True)
+    # pay.run(alipay)
+
+    # pay = Cmb()
+    # pay.run(cmb)
+
+    pay = Wechat()
+    pay.run_file(wechat)
+
+    # save = r"D:\Workspace\github\code\temp\aaa.txt"
+    # my_money = r"C:\Users\philo\Downloads\temp\Music1\myMoney.xls"
+    # cmb = r"C:\Users\philo\Downloads\temp\Music1\CreditCardReckoning.txt"
+    # start = "2020-01-01"
+    # end = "2020-10-27"
+    # compare = Compare()
     # compare.compare(save, my_money, cmb, start, end)
-    compare.run()
+    # compare.run()
