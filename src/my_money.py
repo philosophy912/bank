@@ -6,8 +6,9 @@
 # @Author:      lizhe
 # @Created:     2021/9/14 - 22:12
 # --------------------------------------------------------
+import xlwings as xw
 from abc import ABCMeta, abstractmethod
-from typing import List, Tuple
+from typing import List, Dict
 
 from automotive import Utils
 
@@ -30,13 +31,13 @@ categories = {
         '眼镜': []},
     '食品酒水': {
         '早餐': ["禾央汤包", "全家购物", "安德鲁森", "泸州小笼包", "麦的多", "麦包点", "周小霞", "红旗连锁订单-262267876806093", "勇",
-               "红旗连锁订单-262267874206093"],
+               "红旗连锁订单-262267874206093", "四川善禅农业科技有限公司"],
         '中餐': ["阿蠔海鲜焖面", "卢婆婆姜鸭面", "顺旺基", "荟福源", "宜宾燃面", "享米时", "老麻抄手", "西北面点王",
                "袁记云饺", "籣州牛肉面", "成都鸡汤抄手", "大巴山猪脚饭", "卤鹅饭", "e特黄焖鸡瓦香鸡成都店",
                "杨铭宇黄焖鸡米饭", "八二小区干海椒抄手", "晓武林烤鸭", "乡村基", "戊丰记卤肉饭", "沙县小吃成都银泰城店",
                "喜水饺", "兵哥豌豆面", "福记羊肉米粉", "岭南牛杂", "自小田", "搪瓷盌小面成都伏龙北巷", "蚝门圣焱", "本味简餐厅",
                "粤饺皇", "南城香冒烤鸭卤肉饭", "贰柒拾乐山干绍面", "拾小馆", "陕西面馆", "干辣椒抄手", "豆汤饭", "快餐店",
-               "姜鸭面", "北方水饺", "匡胖子面馆", "余肥肠", "蜀人卤匠乌鸡米线", "四川善禅农业科技有限公司", "张氏海味面", "担担面", "蒌兰兰州牛肉面"],
+               "姜鸭面", "北方水饺", "匡胖子面馆", "余肥肠", "蜀人卤匠乌鸡米线", "张氏海味面", "担担面", "蒌兰兰州牛肉面"],
         '晚餐': ["庆元猪脚饭"],
         '零食': ["面包新语(银泰城店)", "雪糕批发", "一同零食", "商户_李黎明", "红旗连锁订单-261927364406093"],
         '水果': ["水果", "芭芭农场"],
@@ -207,11 +208,43 @@ class AbsOps(metaclass=ABCMeta):
         self._utils = Utils()
 
     @abstractmethod
-    def read(self, file: str) -> Tuple[List[TemplateExcel], List[TemplateExcel]]:
+    def read(self, file: str) -> Dict[str, List[TemplateExcel]]:
         pass
 
-    def write(self, file: str, templates: List[TemplateExcel]):
-        pass
+    def write(self, date_dict: Dict[str, List[TemplateExcel]], file: str = "template.xls"):
+        app = xw.App(visible=True, add_book=False)
+        wb = app.books.open(file)
+        out_list = date_dict[outcome]
+        try:
+            in_list = date_dict[income]
+        except KeyError:
+            in_list = []
+        in_sheet = wb.sheets[income]
+        out_sheet = wb.sheets[outcome]
+        in_sheet.range("A2").value = self.__convert_contents(in_list)
+        out_sheet.range("A2").value = self.__convert_contents(out_list)
+        wb.save(f"result_{self._utils.get_time_as_string()}.xls")
+        wb.close()
+        app.quit()
+
+    @staticmethod
+    def __convert_contents(templates: List[TemplateExcel]) -> List:
+        contents = []
+        if len(templates) > 0:
+            for template in templates:
+                contents.append((
+                    template.exchange_type,
+                    template.date,
+                    template.category,
+                    template.sub_category,
+                    template.account1,
+                    template.account2,
+                    template.amount,
+                    template.member,
+                    template.project,
+                    template.comment
+                ))
+        return contents
 
 
 def read_file(file: str, encoding: str = "utf-8") -> list:

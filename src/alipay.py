@@ -100,6 +100,8 @@ class Alipay(AbsOps):
                         category_name = category
                         if pay_amount in ("1.80", "2.00"):
                             sub_category_name = "公交"
+                        else:
+                            sub_category_name = "地铁"
                     else:
                         category_name = category
                         sub_category_name = sub_category
@@ -141,7 +143,4 @@ class Alipay(AbsOps):
 if __name__ == '__main__':
     alipay = Alipay()
     result = alipay.read(r"C:\Users\lizhe\Downloads\Music20210914\alipay_record_20210914_2210_1.csv")
-    for value in result[outcome]:
-        if value.category == "":
-            print(value)
-    # print(result[outcome])
+    alipay.write(result)

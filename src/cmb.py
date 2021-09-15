@@ -59,3 +59,10 @@ class Cmb(AbsOps):
     def read(self, file: str) -> Dict[str, List[TemplateExcel]]:
         contents = self.__filter_data(file)
         return {outcome: self.__split_contents(contents)}
+
+
+if __name__ == '__main__':
+    cmb_file = r"C:\Users\lizhe\Downloads\Music20210914\CreditCardReckoning.txt"
+    cmb = Cmb()
+    result = cmb.read(cmb_file)
+    cmb.write(result)
