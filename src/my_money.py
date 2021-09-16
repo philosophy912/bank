@@ -85,7 +85,7 @@ categories = {
     '行车交通': {
         '加油': ["壳牌", "中石化", "中油", "加好油", "中国石油"],
         '停车': ["无感支付", "停车场", "瑞林", "中青旅山", "停车费"],
-        '保养': ["德系名车专修"],
+        '保养': [],
         '维修': [],
         '违章罚款': [],
         '保险': [],
@@ -98,7 +98,7 @@ categories = {
         '驾照': [],
         '自行车': ["哈啰"],
         '过路费': [],
-        '洗车': [],
+        '洗车': ["德系名车专修"],
         '大巴': []
     },
     '交流通讯': {
@@ -241,6 +241,7 @@ class AbsOps(metaclass=ABCMeta):
                     template.account2,
                     template.amount,
                     template.member,
+                    template.seller,
                     template.project,
                     template.comment
                 ))

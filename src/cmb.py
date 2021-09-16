@@ -47,6 +47,7 @@ class Cmb(AbsOps):
                 category = "食品酒水"
                 sub_category = "中餐"
             template_excel = TemplateExcel()
+            template_excel.exchange_type = outcome
             template_excel.date = pay_data
             template_excel.category = category
             template_excel.sub_category = sub_category
