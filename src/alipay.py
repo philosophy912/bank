@@ -6,6 +6,7 @@
 # @Author:      lizhe
 # @Created:     2021/9/14 - 22:28
 # --------------------------------------------------------
+import os
 from datetime import datetime
 from typing import List, Dict
 
@@ -142,5 +143,7 @@ class Alipay(AbsOps):
 
 if __name__ == '__main__':
     alipay = Alipay()
-    result = alipay.read(r"C:\Users\lizhe\Downloads\Music20210914\alipay_record_20210914_2210_1.csv")
+    folder = r"C:\Users\lizhe\Documents\Downloads\Music20210914"
+    file = os.path.join(folder, "alipay_record_20211224_1340_1.csv")
+    result = alipay.read(file)
     alipay.write(result)

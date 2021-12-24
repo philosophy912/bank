@@ -6,7 +6,8 @@
 # @Author:      lizhe
 # @Created:     2021/9/14 - 22:16
 # --------------------------------------------------------
-from typing import List, Tuple, Dict
+from typing import List, Dict
+import os
 
 from src.my_money import TemplateExcel, AbsOps, read_file, outcome
 
@@ -63,7 +64,8 @@ class Cmb(AbsOps):
 
 
 if __name__ == '__main__':
-    cmb_file = r"C:\Users\lizhe\Downloads\Music20210914\CreditCardReckoning.txt"
+    folder = r"C:\Users\lizhe\Documents\Downloads\Music20210914"
+    cmb_file = os.path.join(folder, "CreditCardReckoning.txt")
     cmb = Cmb()
     result = cmb.read(cmb_file)
     cmb.write(result)

@@ -7,6 +7,7 @@
 # @Created:     2021/9/15 - 13:54
 # --------------------------------------------------------
 from typing import Tuple, List, Dict
+import os
 
 from src.my_money import AbsOps, TemplateExcel, read_file, income, outcome, categories, contain_keyword
 
@@ -75,7 +76,8 @@ class Wechat(AbsOps):
 
 
 if __name__ == '__main__':
-    wechat_file = fr"C:\Users\lizhe\Downloads\Music20210914\wechat.csv"
+    folder = r"C:\Users\lizhe\Documents\Downloads\Music20210914"
+    wechat_file = os.path.join(folder, "wechat.csv")
     wechat = Wechat()
     result = wechat.read(wechat_file)
     wechat.write(result)
